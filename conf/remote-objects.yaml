@@ -13,6 +13,7 @@
 # limitations under the License.
 
 hosts: [node1.xy.com]
+#hosts: [localhost]
 port: 8182
 serializer: {
   className: org.apache.tinkerpop.gremlin.driver.ser.GryoMessageSerializerV1d0,

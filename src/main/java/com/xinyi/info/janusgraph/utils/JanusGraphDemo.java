@@ -16,10 +16,12 @@ public class JanusGraphDemo {
 
 
         //        获取所有顶点Graph 4248 4320
-        GraphTraversal iterator1 = g.E();  //返回一个迭代器，需要迭代逐一取值
-        while(iterator1.hasNext()){
-            System.out.println(iterator1.next());
-        }
+//        GraphTraversal iterator1 = g.E();  //返回一个迭代器，需要迭代逐一取值
+//        while(iterator1.hasNext()){
+//            System.out.println(iterator1.next());
+//        }
+
+
 
         System.exit(0);
 

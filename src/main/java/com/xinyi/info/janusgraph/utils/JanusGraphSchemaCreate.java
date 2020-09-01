@@ -7,6 +7,7 @@ import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.janusgraph.core.*;
 import org.janusgraph.core.schema.JanusGraphManagement;
 import org.janusgraph.diskstorage.BackendException;
+import org.janusgraph.graphdb.database.StandardJanusGraph;
 
 import java.util.Iterator;
 
@@ -27,6 +28,8 @@ public class JanusGraphSchemaCreate {
         JanusGraph graph = JanusGraphFactory.open("conf/janusgraph-hbase-es.properties");
         GraphTraversalSource g = graph.traversal();
         JanusGraphManagement JGmanager = graph.openManagement();
+
+        long vertexId = ((StandardJanusGraph) graph).getIDManager().toVertexId(123456);
 //
 //        //顶点标签创建
 //        JGmanager.makeVertexLabel("person").make();

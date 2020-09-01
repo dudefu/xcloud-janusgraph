@@ -17,12 +17,12 @@ public class SanGuoDemo {
         JanusGraphManagement mgmt = graph.openManagement();
 
 
-
         //创建顶点标签
         mgmt.makeVertexLabel("person").make();
         mgmt.makeVertexLabel("country").make();
         mgmt.makeVertexLabel("weapon").make();
         mgmt.getVertexLabels();
+
 
 
         //创建边标签

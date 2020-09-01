@@ -4,9 +4,11 @@ package com.xinyi.info.janusgraph.controller;
 import com.xinyi.info.janusgraph.domain.model.ReturnJSON;
 import com.xinyi.info.janusgraph.domain.service.EdgeService;
 import com.xinyi.info.janusgraph.domain.service.VertexService;
+import com.xinyi.info.janusgraph.remote.connect.RemoteGraphConnection;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +28,16 @@ public class GraphEdgeController {
     @Autowired
     EdgeService edgeService ;
 
+    private static GraphTraversalSource g;
+
+    static {
+        try {
+            g = RemoteGraphConnection.getGraphTraversalSource();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * 新增边
      * @return
@@ -38,7 +50,7 @@ public class GraphEdgeController {
             @ApiParam(name = "vid2", value = "to顶点ID", required = true) @RequestParam(required = true) int vid2,
             @ApiParam(name = "ELabel", value = "边标签", required = true) @RequestParam(required = true) String ELabel)  {
 
-        return  edgeService.addE(vid1,vid2,ELabel);
+        return  edgeService.addE(vid1,vid2,ELabel,g);
 
     }
 
@@ -52,7 +64,7 @@ public class GraphEdgeController {
     public ReturnJSON deleteE(
             @ApiParam(name = "idName", value = "边的ID", required = true) @RequestParam(required = true) String idName)  {
 
-        return  edgeService.deleteE(idName);
+        return  edgeService.deleteE(idName,g);
 
     }
 
@@ -105,7 +117,7 @@ public class GraphEdgeController {
     @ApiOperation(value = "获取所有边",notes = "遍历图所有的边，并逐条打印")
     public ReturnJSON getAllE() {
 
-        return  edgeService.getAllE();
+        return  edgeService.getAllE(g);
 
     }
 
@@ -117,13 +129,26 @@ public class GraphEdgeController {
     @GetMapping("/getE")
     @ApiOperation(value = "获取单条边",notes = "获取单条边")
     public ReturnJSON getE(
-            @ApiParam(name = "fromName", value = "from顶点名", required = true) @RequestParam(required = true) String fromName,
-            @ApiParam(name = "toName", value = "to顶点名", required = true) @RequestParam(required = true) String toName) {
+            @ApiParam(name = "cardidFrom", value = "主身份证号码", required = true) @RequestParam(required = true) String cardidFrom,
+            @ApiParam(name = "cardidTo", value = "从身份证号码", required = true) @RequestParam(required = true) String cardidTo) {
 
-        return  edgeService.getE(fromName, toName);
+        return  edgeService.getE(cardidFrom, cardidTo,g);
 
     }
 
+    /**
+     * 获取单条边
+     * @return
+     * @throws Exception
+     */
+    @GetMapping("/getOutE")
+    @ApiOperation(value = "根据身份证号码获取某个顶点所有外向边",notes = "根据身份证号码获取某个顶点所有外向边")
+    public ReturnJSON getOutE(
+            @ApiParam(name = "cardid", value = "身份证号码", required = true) @RequestParam(required = true) String cardid,
+            @ApiParam(name = "level", value = "层级", required = false) @RequestParam(required = false) Integer level) {
 
+        return  edgeService.getOutE(cardid,level,g);
+
+    }
 
 }

@@ -8,6 +8,7 @@ import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.apache.tinkerpop.gremlin.structure.VertexProperty;
 import org.apache.tinkerpop.gremlin.structure.io.IoCore;
 import org.janusgraph.core.Cardinality;
+import org.janusgraph.core.ConfiguredGraphFactory;
 import org.janusgraph.core.JanusGraph;
 import org.janusgraph.core.JanusGraphFactory;
 import org.janusgraph.core.schema.JanusGraphManagement;
@@ -16,16 +17,17 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Set;
 
 public class AirportGraph {
 
     public static void main(String[] args) throws Exception {
 
-//        JanusGraph graph = JanusGraphFactory.open("conf/janusgraph-hbase-es.properties");
-//        GraphTraversalSource g = graph.traversal();
-
-//        导入航空线测试数据
-//        InputStream inputStream = new FileInputStream("air-routes-latest.graphml");
+        JanusGraph graph = JanusGraphFactory.open("conf/janusgraph-hbase-es.properties");
+        GraphTraversalSource g = graph.traversal();
+//
+////        导入航空线测试数据
+//        InputStream inputStream = new FileInputStream("conf/air-routes-latest.graphml");
 //        graph.io(IoCore.graphml()).reader().create().readGraph(inputStream,graph);
 
 //        获取所有顶点Graph
@@ -46,11 +48,19 @@ public class AirportGraph {
 //        g.V(v1).addE("knows").to(v2).property("weight",0.75).iterate();
 
 //        GraphTraversalSource g = RemoteGraphConnection.getGraphTraversalSource();
+
 //        g.V(4144).property(VertexProperty.Cardinality.single,"name","张飞").next();
 
-        JanusGraph graph = JanusGraphFactory.open("conf/janusgraph-hbase-es.properties");
-        JanusGraphManagement mgmt = graph.openManagement();
-        mgmt.getEdgeLabel("情人").remove();
+//        JanusGraph graph = JanusGraphFactory.open("conf/janusgraph-hbase-es.properties");
+//        JanusGraphManagement mgmt = graph.openManagement();
+
+//        mgmt.getEdgeLabel("情人").remove();
+        
+//        Set<String> set = ConfiguredGraphFactory.getGraphNames();
+//        for(String str : set ){
+//            System.out.println(str);
+//        }
+        g.V(4216).next();
         System.exit(0);
     }
 }

@@ -21,11 +21,11 @@ import java.util.List;
 public class VertexServiceImpl implements VertexService {
 
     @Override
-    public ReturnJSON addV(String label,String name, int age,GraphTraversalSource g) {
+    public ReturnJSON addV(String label,String name, String cardid,GraphTraversalSource g) {
         ReturnJSON returnJSON = new ReturnJSON();
         try{
 //            GraphTraversalSource g = RemoteGraphConnection.getGraphTraversalSource();
-            Vertex v = g.addV(label).property("name", name).property("age", age).next();
+            Vertex v = g.addV(label).property("name", name).property("cardid", cardid).next();
             returnJSON.setCode(200);
             returnJSON.setCmd("/v1/vertex/addV");
             returnJSON.setData("添加顶点成功，vid = "+v.id());
@@ -72,12 +72,12 @@ public class VertexServiceImpl implements VertexService {
     }
 
     @Override
-    public ReturnJSON getV(String name,GraphTraversalSource g) {
+    public ReturnJSON getV(String cardid,GraphTraversalSource g) {
         ReturnJSON returnJSON = new ReturnJSON();
         try{
 //            GraphTraversalSource g = RemoteGraphConnection.getGraphTraversalSource();
-            String valueMap = g.V().has("name",name).valueMap().next().toString();
-            String vId = g.V().has("name",name).id().next().toString();
+            String valueMap = g.V().has("cardid",cardid).valueMap().next().toString();
+            String vId = g.V().has("cardid",cardid).id().next().toString();
             returnJSON.setCode(200);
             returnJSON.setCmd("/v1/vertex/getV");
             if(null != valueMap || vId != null){

@@ -2,7 +2,6 @@ package com.xinyi.info.janusgraph.controller;
 
 
 import com.xinyi.info.janusgraph.domain.model.ReturnJSON;
-import com.xinyi.info.janusgraph.domain.service.EdgeService;
 import com.xinyi.info.janusgraph.domain.service.VertexService;
 import com.xinyi.info.janusgraph.remote.connect.RemoteGraphConnection;
 import io.swagger.annotations.Api;
@@ -50,9 +49,9 @@ public class GraphVertexController {
     public ReturnJSON addV(
             @ApiParam(name = "VLabel", value = "顶点标签", required = true) @RequestParam(required = true) String VLabel,
             @ApiParam(name = "name", value = "姓名", required = true) @RequestParam(required = true) String name,
-            @ApiParam(name = "age", value = "年龄", required = true) @RequestParam(required = true) int age) {
+            @ApiParam(name = "cardid", value = "身份证号码", required = true) @RequestParam(required = true) String cardid) {
 
-        return vertexService.addV(VLabel,name,age,g);
+        return vertexService.addV(VLabel,name,cardid,g);
 
     }
 
@@ -93,9 +92,9 @@ public class GraphVertexController {
     @GetMapping("/getV")
     @ApiOperation(value = "获取单个顶点",notes = "获取单个顶点")
     public ReturnJSON getV(
-            @ApiParam(name = "name", value = "姓名", required = true) @RequestParam(required = true) String name) {
+            @ApiParam(name = "cardid", value = "身份证号码", required = true) @RequestParam(required = true) String cardid) {
 
-        return vertexService.getV(name,g);
+        return vertexService.getV(cardid,g);
 
     }
 

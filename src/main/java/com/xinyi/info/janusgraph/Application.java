@@ -35,7 +35,7 @@ public class Application implements WebMvcConfigurer {
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
             public void run() {
-                logger.error("应用停止，应用停止，应用停止");
+                logger.info("应用停止，应用停止，应用停止");
                 try {
                     RemoteGraphConnection.closeGraphTraversalSource();
                 } catch (Exception e) {

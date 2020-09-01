@@ -20,6 +20,7 @@ public class CreateEmptyGraph {
         JanusGraph graph = JanusGraphFactory.open("conf/janusgraph-hbase-es.properties");
         GraphTraversalSource g = graph.traversal();
 
+
         //增加顶点标签
         Vertex v1 = g.addV("person").property(T.id, 1).property("name", "marko").property("age", 29).next();
         Vertex v2 = g.addV("software").property(T.id, 3).property("name", "lop").property("lang", "java").next();

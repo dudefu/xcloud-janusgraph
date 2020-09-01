@@ -5,11 +5,11 @@ import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSo
 
 public interface VertexService {
 
-    ReturnJSON addV(String label, String name , int age , GraphTraversalSource g) ;
+    ReturnJSON addV(String label, String name , String cardid , GraphTraversalSource g) ;
 
     ReturnJSON deleteV(int vid,GraphTraversalSource g) ;
 
-    ReturnJSON getV(String name,GraphTraversalSource g);
+    ReturnJSON getV(String cardid,GraphTraversalSource g);
 
     ReturnJSON updateV(int vid,String name,GraphTraversalSource g);
 
