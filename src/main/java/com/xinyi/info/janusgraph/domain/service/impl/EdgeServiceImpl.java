@@ -13,6 +13,8 @@ import org.janusgraph.core.EdgeLabel;
 import org.janusgraph.core.JanusGraph;
 import org.janusgraph.core.JanusGraphFactory;
 import org.janusgraph.core.schema.JanusGraphManagement;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -24,6 +26,8 @@ import java.util.*;
  */
 @Service
 public class EdgeServiceImpl implements EdgeService {
+
+    Logger logger = LoggerFactory.getLogger(EdgeServiceImpl.class);
 
     @Override
     public ReturnJSON addE(int vid1,int vid2,String labelName,GraphTraversalSource g) {
@@ -185,7 +189,7 @@ public class EdgeServiceImpl implements EdgeService {
         }
 
         ReturnJSON returnJSON = new ReturnJSON();
-        List<Object> results = new ArrayList<>();
+//        List<Object> results = new ArrayList<>();
         List<Mxcsgx> mxcsgxs = new ArrayList<>();
         try{
             GraphTraversal iteratorOutE = g.V().has("cardid",cardid).outE();
@@ -202,8 +206,8 @@ public class EdgeServiceImpl implements EdgeService {
             while(iteratorOutE.hasNext()){
                 Mxcsgx mxcsgx = new Mxcsgx();
                 Edge edge = (Edge) iteratorOutE.next();
-                String lordId = edge.inVertex().id().toString();
-                String followId = edge.outVertex().id().toString();
+                String lordId = edge.outVertex().id().toString();
+                String followId = edge.inVertex().id().toString();
                 mxcsgx.setLordId(lordId);
                 mxcsgx.setFollowId(followId);
                 mxcsgx.setRefType(edge.label());
@@ -240,12 +244,13 @@ public class EdgeServiceImpl implements EdgeService {
                 dataCount++;
             }
             Map map = new HashMap();
-            map.put("dataCount",dataCount);
-            results.add(map);
-            results.add(mxcsgxs);
+            map.put("totalData",dataCount);
+            logger.info(String.valueOf(map));
+//            results.add(map);
+//            results.add(mxcsgxs);
             returnJSON.setCmd("/v1/edge/getOutE");
             returnJSON.setCode(200);
-            returnJSON.setData(results);
+            returnJSON.setData(mxcsgxs);
         }catch (Exception e){
             returnJSON.setCmd("/v1/edge/getOutE");
             returnJSON.setCode(500);

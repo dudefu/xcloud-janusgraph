@@ -1,6 +1,7 @@
 package com.xinyi.info.janusgraph.domain.service.impl;
 
 import com.xinyi.info.janusgraph.domain.model.ReturnJSON;
+import com.xinyi.info.janusgraph.domain.model.VertexEntity;
 import com.xinyi.info.janusgraph.remote.connect.RemoteGraphConnection;
 import com.xinyi.info.janusgraph.domain.service.VertexService;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversal;
@@ -10,6 +11,7 @@ import org.apache.tinkerpop.gremlin.structure.VertexProperty;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -75,16 +77,20 @@ public class VertexServiceImpl implements VertexService {
     public ReturnJSON getV(String cardid,GraphTraversalSource g) {
         ReturnJSON returnJSON = new ReturnJSON();
         try{
-//            GraphTraversalSource g = RemoteGraphConnection.getGraphTraversalSource();
-            String valueMap = g.V().has("cardid",cardid).valueMap().next().toString();
-            String vId = g.V().has("cardid",cardid).id().next().toString();
+//            String valueMap = g.V().has("cardid",cardid).valueMap().next().toString();
+//            String vId = g.V().has("cardid",cardid).id().next().toString();
+            GraphTraversal vertexIterator = g.V().has("cardid",cardid).valueMap();
+            VertexEntity vertexEntity = new VertexEntity();
+            while (vertexIterator.hasNext()) {
+                LinkedHashMap properties = (LinkedHashMap) vertexIterator.next();
+                ArrayList name = (ArrayList) properties.get("name");
+                ArrayList cardId = (ArrayList) properties.get("cardid");
+                vertexEntity.setName(name.get(0).toString());
+                vertexEntity.setCardid(cardId.get(0).toString());
+            }
             returnJSON.setCode(200);
             returnJSON.setCmd("/v1/vertex/getV");
-            if(null != valueMap || vId != null){
-                returnJSON.setData(valueMap+", id="+vId);
-            }else{
-                returnJSON.setData("");
-            }
+            returnJSON.setData(vertexEntity);
         }catch (Exception e){
             e.printStackTrace();
             returnJSON.setCode(500);
